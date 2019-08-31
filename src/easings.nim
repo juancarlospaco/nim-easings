@@ -20,30 +20,30 @@ when not defined(js):
   func easingsOutBack*(inputFloat: cfloat): float {.importc, header: headerEasings.}
   func easingsInOutBack*(inputFloat: cfloat): float {.importc, header: headerEasings.}
 
-else:
 
-  #func easingsLinear*(inputFloat: cfloat): float {.importc, header: headerEasings.}
+# ^ C / C++ ############################################# v NodeJS / JavaScript
+
+
+else:
   func easingsLinear*(t: float, b: float = 0.0, c: float = 1.0, d: float = 1.0): float =
     c * t / d + b
 
-  #func easingsInCubic*(inputFloat: cfloat): float {.importc, header: headerEasings.}
   func easingsInCubic*(time: float, b: float = 0.0, c: float = 1.0, d: float = 1.0): float =
     let t = time / d
-    c * t * t * t + b
+    result = c * t * t * t + b
 
-  #func easingsOutCubic*(inputFloat: cfloat): float {.importc, header: headerEasings.}
   func easingsOutCubic*(time: float, b: float = 0.0, c: float = 1.0, d: float = 1.0): float =
     let t = time / d - 1
-    c * (t * t * t + 1) + b
+    result = c * (t * t * t + 1) + b
 
   #func easingsInOutCubic*(inputFloat: cfloat): float {.importc, header: headerEasings.}
   func easingsInOutCubic*(time: float, b: float = 0.0, c: float = 1.0, d: float = 1.0): float =
-      var t = time / (d * 2)
-      if t < 1:
-        result = c / 2 * t * t * t + b
-      else:
-        t -= 2
-      result =  c / 2 * (t * t * t + 2) + b
+    var t = time / (d * 2.0)
+    if t < 1.0:
+      result = (c / 2.0) * t * t * t + b
+    else:
+      t -= 2.0
+    result =  (c / 2.0) * ((t * t * t) + 2) + b
 
   #func easingsInQuad*(inputFloat: cfloat): float {.importc, header: headerEasings.}
   func easingsInQuad*(time: float, b: float = 0.0, c: float = 1.0, d: float = 1.0): float =
@@ -97,7 +97,7 @@ when isMainModule:
   assert easingsLinear(42) == 42.0
   assert easingsInCubic(42) == 74088.0
   assert easingsOutCubic(42) == 68922.0
-  echo easingsInOutCubic(42)
+  echo easingsInOutCubic(42.cfloat)
   assert easingsInOutCubic(42.cfloat) == 275685.0
   echo easingsInQuad(42)
   assert easingsInQuad(42.cfloat) == 1764.0
